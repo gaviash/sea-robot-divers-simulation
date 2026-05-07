@@ -35,6 +35,31 @@ public abstract class Agent {
         //Rajouter un print au deplacement chez les enfants
     }
 
+    protected boolean seDeplacerVers(int cibleLig, int cibleCol, int distanceMax){
+        int ecartLig = cibleLig - this.lig;
+        int ecartCol = cibleCol - this.col;
+        int distance = Math.abs(ecartLig) + Math.abs(ecartCol);
+
+        if (distance <= distanceMax){
+            this.seDeplacer(cibleLig, cibleCol);
+            return true;
+        }
+
+        int reste = distanceMax;
+        int nouvelleLig = this.lig;
+        int nouvelleCol = this.col;
+
+        int pasLig = Math.min(Math.abs(ecartLig), reste) * Integer.signum(ecartLig);
+        nouvelleLig += pasLig;
+        reste -= Math.abs(pasLig);
+
+        int pasCol = Math.min(Math.abs(ecartCol), reste) * Integer.signum(ecartCol);
+        nouvelleCol += pasCol;
+
+        this.seDeplacer(nouvelleLig, nouvelleCol);
+        return false;
+    }
+
     public String toString(){
         return "Agent N'" + this.id + " est a la position (" + this.lig + "," + this.col +")"; 
     }
