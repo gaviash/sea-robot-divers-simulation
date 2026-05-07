@@ -4,12 +4,17 @@ public class Plongeur extends Explorateur implements Rechargeable {
     private static final int SEUIL_BAS_OXYGENE = 15;
     private static final int USE_PER_TURN = 5;
     private static final int DEPLACEMENT = 30;
-     
+    private static final int OXYGENE_DEPART = 40;
     private int oxygene;
 
     public Plongeur(int lig, int col, Terrain terrain) {
         super(lig, col, terrain);
-        this.oxygene = 10;
+        this.oxygene = OXYGENE_DEPART;
+    }
+
+    public Plongeur(Terrain terrain){
+        super(terrain);
+        this.oxygene = OXYGENE_DEPART;
     }
 
     @Override
