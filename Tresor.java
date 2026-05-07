@@ -4,8 +4,4 @@ public class Tresor extends Ressource {
         super("Tresor",quantite);
     }
 
-    
-
-
-
 }

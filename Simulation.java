@@ -4,16 +4,23 @@ public class Simulation {
     public static ArrayList<Ressource> ressources;
     public static boolean singleton = false;
     public static Terrain terrain;
+    public static int DIMENSIONS = 10;
+    public final int nombre_agents;
+    public final int nombres_ressources;
 
-    private Simulation(Terrain t){
-        this.ressources = t.lesRessources();
-        this.terrain = t;
+    private Simulation(int nombre_agents){
+        terrain = new Terrain(DIMENSIONS, DIMENSIONS);
+        ressources = terrain.lesRessources();
+        this.nombre_agents = nombre_agents;
+        this.nombres_ressources = (int)(this.nombre_agents * 1.5);
+
+        
     }
 
-    public static Simulation createSimulation(Terrain t){
+    public static Simulation createSimulation(int nombre_agents){
         if (!singleton){
             singleton = true;
-            return new Simulation(t);
+            return new Simulation(nombre_agents);
         } else {
             return null;
         }
@@ -32,4 +39,6 @@ public class Simulation {
         terrain.viderCase(r.getLigne(), r.getColonne());
         ressources.remove(ressources.indexOf(r));
     }
+
+
 }
