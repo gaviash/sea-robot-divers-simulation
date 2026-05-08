@@ -4,6 +4,7 @@ public class Robot extends Explorateur implements Rechargeable {
     private static final int BATTERIE_DEPART = 40;
     private static final int USE_PER_TURN = 5;
     private static final int RECHARGE_PER_TURN = 5;
+    private static int compteur_score = 0;
 
     private int batterie;
     private boolean enRecharge;
@@ -48,6 +49,12 @@ public class Robot extends Explorateur implements Rechargeable {
         } else {
             this.batterie += quantite;
         }
+    }
+
+    @Override
+    public void ramasserRessource(Ressource r){
+        super.ramasserRessource(r);
+        compteur_score += r.getQuantite();
     }
 
     protected void ramasseMemecaseTresor() {

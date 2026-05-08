@@ -5,6 +5,7 @@ public class Plongeur extends Explorateur implements Rechargeable {
     private static final int USE_PER_TURN = 5;
     private static final int DEPLACEMENT = 30;
     private static final int OXYGENE_DEPART = 40;
+    private static int compteur_score = 0;
     private int oxygene;
 
     public Plongeur(int lig, int col, Terrain terrain) {

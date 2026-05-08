@@ -10,7 +10,7 @@ public class Oxygene extends RessourceEvolutive {
             if (this.getQuantite() <= 0){
                 Simulation.enleverRessource(this);
             } else{
-                this.setQuantite(this.getQuantite()-1);
+                this.setQuantite(this.getQuantite()-3);
             }
         }
     }
