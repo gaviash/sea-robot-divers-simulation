@@ -136,9 +136,9 @@ public final class Terrain {
       if (var1 == 0) {
          var2 = var2 + "toutes les cases sont libres.";
       } else if (var1 == 1) {
-         var2 = var2 + "il y a une case occupée.";
+         var2 = var2 + "il y a une case occupee.";
       } else {
-         var2 = var2 + "il y a " + var1 + " cases occupées.";
+         var2 = var2 + "il y a " + var1 + " cases occupees.";
       }
 
       return var2;
@@ -169,6 +169,6 @@ public final class Terrain {
          }
       }
 
-      System.out.println("Les " + var1 + " ressources ont les bonnes coordonnées sur le terrain");
+      System.out.println("Les " + var1 + " ressources ont les bonnes coordonnees sur le terrain");
    }
 }

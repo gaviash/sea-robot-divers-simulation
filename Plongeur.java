@@ -2,8 +2,8 @@ public class Plongeur extends Explorateur implements Rechargeable {
     private static final int MAX_OXYGENE = 100;
     private static final int SEUIL_HAUT_OXYGENE = 80;
     private static final int SEUIL_BAS_OXYGENE = 15;
-    private static final int USE_PER_TURN = 5;
-    private static final int DEPLACEMENT = 30;
+    private static final int USE_PER_TURN = 6;
+    private static final int DEPLACEMENT = 5;
     private static final int OXYGENE_DEPART = 40;
     private static int compteur_score = 0;
     private int oxygene;
@@ -20,7 +20,7 @@ public class Plongeur extends Explorateur implements Rechargeable {
 
     @Override
     public String toString(){
-        return "[Plongeur N°" + this.id + "Position : col-"+this.col + "lig-" + this.lig +" - Oxygene " + this.oxygene + " - Score : " + this.score + "]";
+        return "[Plongeur No " + this.id + " Position : col-"+this.col + "lig-" + this.lig +" - Oxygene " + this.oxygene + " - Score : " + this.score + "]";
     }
 
     @Override
@@ -30,7 +30,8 @@ public class Plongeur extends Explorateur implements Rechargeable {
             Simulation.enleverRessource(r);
         } else {
             super.ramasserRessource(r);
-            System.out.println(this.toString() + "a ramassé " + r.getQuantite() + " d'or.");
+            compteur_score += r.getQuantite();
+            System.out.println(this.toString() + "a ramasse " + r.getQuantite() + " d'or.");
         }
 
     }
@@ -56,7 +57,7 @@ public class Plongeur extends Explorateur implements Rechargeable {
             this.oxygene += quantite;
         } else {
             this.oxygene = MAX_OXYGENE;
-            System.out.println("Plongeur N°" + this.id + " a trop d'oxygene et ne peut plus en ramasser");
+            System.out.println("Plongeur No " + this.id + " a trop d'oxygene et ne peut plus en ramasser");
         }
     }
 
@@ -98,5 +99,9 @@ public class Plongeur extends Explorateur implements Rechargeable {
         if (!terrain.caseEstVide(this.lig, this.col)){
             this.ramasserRessource(terrain.getCase(this.lig, this.col));
         }
+    }
+
+    public static int getCompteurScore(){
+        return compteur_score;
     }
 }

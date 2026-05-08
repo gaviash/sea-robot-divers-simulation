@@ -1,6 +1,6 @@
 public class Robot extends Explorateur implements Rechargeable {
     public final static int DEPLACEMENT = 60;
-    private static final int MAX_BATTERIE = 60;
+    private static final int MAX_BATTERIE = 40;
     private static final int BATTERIE_DEPART = 40;
     private static final int USE_PER_TURN = 5;
     private static final int RECHARGE_PER_TURN = 5;
@@ -23,7 +23,7 @@ public class Robot extends Explorateur implements Rechargeable {
 
     @Override
     public String toString() {
-        return "[Robot N°" + this.id + " Position : col-" + this.col + "lig-" + this.lig + " - Batterie " + this.batterie
+        return "[Robot No " + this.id + " Position : col-" + this.col + "lig-" + this.lig + " - Batterie " + this.batterie
                 + " - En recharge : " + this.enRecharge + " - Score : " + this.score + "]";
     }
 
@@ -43,11 +43,10 @@ public class Robot extends Explorateur implements Rechargeable {
 
     @Override
     public void recharger(int quantite) {
-        if (this.batterie >= MAX_BATTERIE-quantite){
+        this.batterie += quantite;
+        if (this.batterie >= MAX_BATTERIE){
             this.batterie = MAX_BATTERIE;
             this.enRecharge = false;
-        } else {
-            this.batterie += quantite;
         }
     }
 
@@ -75,5 +74,9 @@ public class Robot extends Explorateur implements Rechargeable {
                 return;
             }
         }
+    }
+
+    public static int getCompteurScore(){
+        return compteur_score;
     }
 }

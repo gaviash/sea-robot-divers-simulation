@@ -70,7 +70,7 @@ public class Simulation {
 
         for (int i = 0; i < Agents.size(); i++) {
             System.out.println("Avant action : " + Agents.get(i));
-            Agents.get(i).agir(); // les agents ont été placé en alternant dont il n'y a pas de favoritisme !
+            Agents.get(i).agir(); // les agents ont ete places en alternance, donc il n'y a pas de favoritisme.
             System.out.println("Apres action : " + Agents.get(i));
         }
 
@@ -78,6 +78,7 @@ public class Simulation {
         evoluerRessources();
         turn_refresh();
         System.out.println("Fin du tour : " + ressources.size() + " ressources restantes (" + resumeRessources() + ")");
+        afficherScoresEquipes();
     }
 
     public static void repeuplerRessources() {
@@ -148,19 +149,38 @@ public class Simulation {
     private static void afficherEtatSimulation() {
         turn_refresh();
         System.out.println("Terrain : " + terrain);
-        System.out.println("Agents : " + Agents.size());
-        for (int i = 0; i < Agents.size(); i++) {
-            System.out.println("- " + Agents.get(i));
-        }
+        System.out.println("Agents : " + Agents.size() + " (" + compterRobots() + " robots, " + compterPlongeurs() + " plongeurs)");
         System.out.println("Ressources : " + ressources.size() + " (" + resumeRessources() + ")");
         terrain.afficher(3);
     }
 
     private static void afficherScores() {
-        System.out.println("Scores finaux :");
+        System.out.println("Scores finaux par equipe :");
+        afficherScoresEquipes();
+    }
+
+    private static void afficherScoresEquipes() {
+        System.out.println("Score Robots : " + Robot.getCompteurScore() + " | Score Plongeurs : " + Plongeur.getCompteurScore());
+    }
+
+    private static int compterRobots() {
+        int total = 0;
         for (int i = 0; i < Agents.size(); i++) {
-            System.out.println("- " + Agents.get(i));
+            if (Agents.get(i) instanceof Robot) {
+                total++;
+            }
         }
+        return total;
+    }
+
+    private static int compterPlongeurs() {
+        int total = 0;
+        for (int i = 0; i < Agents.size(); i++) {
+            if (Agents.get(i) instanceof Plongeur) {
+                total++;
+            }
+        }
+        return total;
     }
 
 }
