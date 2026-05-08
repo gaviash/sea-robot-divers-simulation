@@ -55,6 +55,7 @@ public class Robot extends Explorateur implements Rechargeable {
     public void ramasserRessource(Ressource r){
         super.ramasserRessource(r);
         compteur_score += r.getQuantite();
+        System.out.println(this.toString() + "a ramasse " + r.getQuantite() + " d'or.");
     }
 
     protected void ramasseMemecaseTresor() {

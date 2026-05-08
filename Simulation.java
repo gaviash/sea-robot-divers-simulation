@@ -18,7 +18,7 @@ public class Simulation {
         for (int i = 0; i < nombres_ressources / 4; i++) {
             placerRessourceAleatoire(terrain, new Oxygene(15, 2));
         }
-        for (int i = 0; i < nombres_ressources * (3 / 4); i++) {
+        for (int i = 0; i < nombres_ressources * 3 / 4; i++) {
             placerRessourceAleatoire(terrain, new Tresor(1));
         }
         ressources = terrain.lesRessources();
@@ -38,15 +38,46 @@ public class Simulation {
         }
     }
 
-    public static void SimulationTurn() {
-        repeuplerRessources();
-        turn_refresh();
-
-        for (int i = 0; i < Agents.size(); i++) {
-            Agents.get(i).agir(); // les agents ont été placé en alternant dont il n'y a pas de favoritisme !
+    public static void simuler(int nbr){
+        if (!singleton || terrain == null || ressources == null || Agents == null) {
+            System.out.println("Impossible de simuler : aucune simulation n'a ete creee.");
+            return;
         }
 
+        System.out.println("=== Debut de la simulation ===");
+        System.out.println("Nombre de tours : " + nbr);
+        afficherEtatSimulation();
+
+        for (int i = 0; i < nbr;i++){
+            System.out.println();
+            System.out.println("--- Tour " + (i + 1) + " / " + nbr + " ---");
+            SimulationTurn();
+            afficherEtatSimulation();
+        }
+
+        System.out.println();
+        System.out.println("=== Fin de la simulation ===");
+        afficherScores();
+    }
+
+
+
+    public static void SimulationTurn() {
+        System.out.println("Repopulation des ressources...");
+        repeuplerRessources();
+        turn_refresh();
+        System.out.println("Ressources disponibles : " + ressources.size() + " (" + resumeRessources() + ")");
+
+        for (int i = 0; i < Agents.size(); i++) {
+            System.out.println("Avant action : " + Agents.get(i));
+            Agents.get(i).agir(); // les agents ont été placé en alternant dont il n'y a pas de favoritisme !
+            System.out.println("Apres action : " + Agents.get(i));
+        }
+
+        System.out.println("Evolution des ressources...");
         evoluerRessources();
+        turn_refresh();
+        System.out.println("Fin du tour : " + ressources.size() + " ressources restantes (" + resumeRessources() + ")");
     }
 
     public static void repeuplerRessources() {
@@ -61,8 +92,9 @@ public class Simulation {
     }
 
     public static void evoluerRessources() {
-        for (int i = 0; i < ressources.size(); i++) {
-            Ressource ress = ressources.get(i);
+        ArrayList<Ressource> copie = new ArrayList<>(ressources);
+        for (int i = 0; i < copie.size(); i++) {
+            Ressource ress = copie.get(i);
             if (ress instanceof RessourceEvolutive) {
                 ((RessourceEvolutive) ress).evoluer_temps();
             }
@@ -91,6 +123,43 @@ public class Simulation {
             int col = (int) (Math.random() * terrain.nbColonnes) + 1;
 
             placee = terrain.setCase(lig, col, r);
+        }
+    }
+
+    private static String resumeRessources() {
+        int nbTresors = 0;
+        int nbOxygene = 0;
+        int nbAutres = 0;
+
+        for (int i = 0; i < ressources.size(); i++) {
+            Ressource r = ressources.get(i);
+            if (r instanceof Tresor) {
+                nbTresors++;
+            } else if (r instanceof Oxygene) {
+                nbOxygene++;
+            } else {
+                nbAutres++;
+            }
+        }
+
+        return nbTresors + " tresors, " + nbOxygene + " oxygenes, " + nbAutres + " autres";
+    }
+
+    private static void afficherEtatSimulation() {
+        turn_refresh();
+        System.out.println("Terrain : " + terrain);
+        System.out.println("Agents : " + Agents.size());
+        for (int i = 0; i < Agents.size(); i++) {
+            System.out.println("- " + Agents.get(i));
+        }
+        System.out.println("Ressources : " + ressources.size() + " (" + resumeRessources() + ")");
+        terrain.afficher(3);
+    }
+
+    private static void afficherScores() {
+        System.out.println("Scores finaux :");
+        for (int i = 0; i < Agents.size(); i++) {
+            System.out.println("- " + Agents.get(i));
         }
     }
 
