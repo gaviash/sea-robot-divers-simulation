@@ -72,11 +72,6 @@ Exemple :
 java TestSimulation 30 50 20
 ```
 
-Lancer les tests complets :
-
-```bash
-java TestComplet
-```
 
 ## Parametres de reference
 
