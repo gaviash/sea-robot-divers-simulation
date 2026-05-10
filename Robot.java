@@ -21,6 +21,12 @@ public class Robot extends Explorateur implements Rechargeable {
         this.enRecharge = false;
     }
 
+    public Robot(Robot autre) {
+        super(autre);
+        this.batterie = autre.batterie;
+        this.enRecharge = autre.enRecharge;
+    }
+
     @Override
     public String toString() {
         return "[Robot No " + this.id + " Position : col-" + this.col + "lig-" + this.lig + " - Batterie " + this.batterie

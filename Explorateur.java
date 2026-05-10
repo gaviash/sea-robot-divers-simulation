@@ -12,6 +12,11 @@ public abstract class Explorateur extends Agent {
         this.score = 0; //La repetition de cette ligne est inevitable,ou alors on aurait du repeter Math.random
     }
 
+    public Explorateur(Explorateur autre) {
+        super(autre.lig, autre.col, autre.terrain);
+        this.score = autre.score;
+    }
+
     public int getScore() {
         return this.score;
     }

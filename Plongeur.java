@@ -18,6 +18,11 @@ public class Plongeur extends Explorateur implements Rechargeable {
         this.oxygene = OXYGENE_DEPART;
     }
 
+    public Plongeur(Plongeur autre) {
+        super(autre);
+        this.oxygene = autre.oxygene;
+    }
+
     @Override
     public String toString(){
         return "[Plongeur No " + this.id + " Position : col-"+this.col + "lig-" + this.lig +" - Oxygene " + this.oxygene + " - Score : " + this.score + "]";

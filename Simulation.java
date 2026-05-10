@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Simulation {
+    private static final int COEFFICIENT_TENTATIVES_PLACEMENT = 20;
     public static ArrayList<Ressource> ressources;
     public static ArrayList<Explorateur> Agents;
     public static boolean singleton = false;
@@ -9,7 +10,11 @@ public class Simulation {
     public static int nombre_agents;
     public static int nombres_ressources;
 
-    private Simulation(int nbr) {
+    private Simulation(int nbr) throws SimulationException {
+        if (nbr < 0) {
+            throw SimulationException.nombreAgentsInvalide(nbr);
+        }
+
         terrain = new Terrain(DIMENSIONS, DIMENSIONS);
         Agents = new ArrayList<>();
         nombre_agents = nbr;
@@ -32,7 +37,16 @@ public class Simulation {
     public static Simulation createSimulation(int nombre_agents) {
         if (!singleton) {
             singleton = true;
-            return new Simulation(nombre_agents);
+            try {
+                return new Simulation(nombre_agents);
+            } catch (SimulationException e) {
+                singleton = false;
+                terrain = null;
+                ressources = null;
+                Agents = null;
+                System.out.println("Creation de simulation impossible : " + e.getMessage());
+                return null;
+            }
         } else {
             return null;
         }
@@ -40,7 +54,12 @@ public class Simulation {
 
     public static void simuler(int nbr){
         if (!singleton || terrain == null || ressources == null || Agents == null) {
-            System.out.println("Impossible de simuler : aucune simulation n'a ete creee.");
+            System.out.println("Impossible de simuler : " + SimulationException.simulationNonInitialisee().getMessage());
+            return;
+        }
+
+        if (nbr < 0) {
+            System.out.println("Impossible de simuler : " + SimulationException.nombreToursInvalide(nbr).getMessage());
             return;
         }
 
@@ -63,6 +82,11 @@ public class Simulation {
 
 
     public static void SimulationTurn() {
+        if (!singleton || terrain == null || ressources == null || Agents == null) {
+            System.out.println("Tour impossible : " + SimulationException.simulationNonInitialisee().getMessage());
+            return;
+        }
+
         System.out.println("Repopulation des ressources...");
         repeuplerRessources();
         turn_refresh();
@@ -83,11 +107,15 @@ public class Simulation {
 
     public static void repeuplerRessources() {
         if (ressources.size() < nombres_ressources) {
-            for (int i = 0; i < nombres_ressources - ressources.size(); i += 4) {
-                placerRessourceAleatoire(terrain, new Tresor(1));
-                placerRessourceAleatoire(terrain, new Tresor(1));
-                placerRessourceAleatoire(terrain, new Tresor(1));
-                placerRessourceAleatoire(terrain, new Oxygene(15, 2));
+            try {
+                for (int i = 0; i < nombres_ressources - ressources.size(); i += 4) {
+                    placerRessourceAleatoire(terrain, new Tresor(1));
+                    placerRessourceAleatoire(terrain, new Tresor(1));
+                    placerRessourceAleatoire(terrain, new Tresor(1));
+                    placerRessourceAleatoire(terrain, new Oxygene(15, 2));
+                }
+            } catch (SimulationException e) {
+                System.out.println("Repopulation interrompue : " + e.getMessage());
             }
         }
     }
@@ -107,23 +135,52 @@ public class Simulation {
     }
 
     public static void enleverRessource(int i) {
-        terrain.viderCase(ressources.get(i).getLigne(), ressources.get(i).getColonne());
-        ressources.remove(i);
+        try {
+            if (!singleton || terrain == null || ressources == null || Agents == null) {
+                throw SimulationException.simulationNonInitialisee();
+            }
+            if (i < 0 || i >= ressources.size()) {
+                throw SimulationException.indiceRessourceInvalide(i);
+            }
+
+            terrain.viderCase(ressources.get(i).getLigne(), ressources.get(i).getColonne());
+            ressources.remove(i);
+        } catch (SimulationException e) {
+            System.out.println("Suppression impossible : " + e.getMessage());
+        }
     }
 
     public static void enleverRessource(Ressource r) {
-        terrain.viderCase(r.getLigne(), r.getColonne());
-        ressources.remove(ressources.indexOf(r));
+        try {
+            if (!singleton || terrain == null || ressources == null || Agents == null) {
+                throw SimulationException.simulationNonInitialisee();
+            }
+            if (!ressources.contains(r)) {
+                throw SimulationException.ressourceAbsente(r);
+            }
+
+            terrain.viderCase(r.getLigne(), r.getColonne());
+            ressources.remove(ressources.indexOf(r));
+        } catch (SimulationException e) {
+            System.out.println("Suppression impossible : " + e.getMessage());
+        }
     }
 
-    public static void placerRessourceAleatoire(Terrain terrain, Ressource r) {
+    public static void placerRessourceAleatoire(Terrain terrain, Ressource r) throws SimulationException {
         boolean placee = false;
+        int tentatives = 0;
+        int maxTentatives = terrain.nbLignes * terrain.nbColonnes * COEFFICIENT_TENTATIVES_PLACEMENT;
 
-        while (!placee) {
+        while (!placee && tentatives < maxTentatives) {
+            tentatives++;
             int lig = (int) (Math.random() * terrain.nbLignes) + 1;
             int col = (int) (Math.random() * terrain.nbColonnes) + 1;
 
             placee = terrain.setCase(lig, col, r);
+        }
+
+        if (!placee) {
+            throw SimulationException.placementImpossible(r, terrain, tentatives);
         }
     }
 
