@@ -39,6 +39,7 @@ Les agents ont des comportements differents :
 |-- Explorateur.java            # Agent avec score et ramassage de ressources
 |-- Robot.java                  # Explorateur rechargeable par batterie
 |-- Plongeur.java               # Explorateur rechargeable en oxygene
+|-- Rechargeable                # Interface pour les explorateurs rechargeables
 |-- Ressource.java              # Ressource simple posee sur le terrain
 |-- RessourceEvolutive.java     # Ressource pouvant evoluer avec le temps
 |-- Oxygene.java                # Ressource evolutive pour les plongeurs
