@@ -174,5 +174,4 @@ Les logs conserves sont limites aux essais utiles :
 
 - Le projet utilise uniquement Java standard.
 - `SimulationException` centralise les erreurs propres a la simulation.
-- `TestComplet` verifie le terrain, les ressources, les agents, les comportements et plusieurs cas limites.
 - Les logs peuvent etre volumineux car la simulation affiche chaque tour et chaque action.
