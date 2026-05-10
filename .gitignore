@@ -20,7 +20,6 @@
 hs_err_pid*
 replay_pid*
 
-doc/
 *.odt
 recap.txt
 
