@@ -1,15 +1,33 @@
 import java.util.ArrayList;
 
+/**
+ * Classe centrale qui gere la creation, les tours et l'affichage d'une simulation.
+ *
+ * @author Gavriel Myara
+ */
 public class Simulation {
     private static final int COEFFICIENT_TENTATIVES_PLACEMENT = 20;
+    /** Liste des ressources actuellement presentes dans la simulation. */
     public static ArrayList<Ressource> ressources;
+    /** Liste des agents participant a la simulation. */
     public static ArrayList<Explorateur> Agents;
+    /** Indique si une simulation est deja creee. */
     public static boolean singleton = false;
+    /** Terrain utilise par la simulation courante. */
     public static Terrain terrain;
+    /** Dimension du terrain carre cree par la simulation. */
     public static int DIMENSIONS = 10;
+    /** Nombre d'agents demandes pour la simulation. */
     public static int nombre_agents;
+    /** Nombre de ressources vise sur le terrain. */
     public static int nombres_ressources;
 
+    /**
+     * Construit une simulation avec un nombre donne d'agents.
+     *
+     * @param nbr nombre d'agents a creer
+     * @throws SimulationException si la simulation ne peut pas etre creee
+     */
     private Simulation(int nbr) throws SimulationException {
         if (nbr < 0) {
             throw SimulationException.nombreAgentsInvalide(nbr);
@@ -34,6 +52,12 @@ public class Simulation {
         }
     }
 
+    /**
+     * Cree la simulation si aucune simulation n'existe deja.
+     *
+     * @param nombre_agents nombre d'agents a creer
+     * @return simulation creee, ou null si une simulation existe deja ou si la creation echoue
+     */
     public static Simulation createSimulation(int nombre_agents) {
         if (!singleton) {
             singleton = true;
@@ -52,6 +76,11 @@ public class Simulation {
         }
     }
 
+    /**
+     * Lance la simulation pour un nombre de tours donne.
+     *
+     * @param nbr nombre de tours a simuler
+     */
     public static void simuler(int nbr){
         if (!singleton || terrain == null || ressources == null || Agents == null) {
             System.out.println("Impossible de simuler : " + SimulationException.simulationNonInitialisee().getMessage());
@@ -81,6 +110,9 @@ public class Simulation {
 
 
 
+    /**
+     * Execute un tour complet de simulation.
+     */
     public static void SimulationTurn() {
         if (!singleton || terrain == null || ressources == null || Agents == null) {
             System.out.println("Tour impossible : " + SimulationException.simulationNonInitialisee().getMessage());
@@ -105,6 +137,9 @@ public class Simulation {
         afficherScoresEquipes();
     }
 
+    /**
+     * Replace des ressources aleatoires pour revenir vers le nombre cible de ressources.
+     */
     public static void repeuplerRessources() {
         if (ressources.size() < nombres_ressources) {
             try {
@@ -120,6 +155,9 @@ public class Simulation {
         }
     }
 
+    /**
+     * Fait evoluer toutes les ressources evolutives de la simulation.
+     */
     public static void evoluerRessources() {
         ArrayList<Ressource> copie = new ArrayList<>(ressources);
         for (int i = 0; i < copie.size(); i++) {
@@ -130,10 +168,18 @@ public class Simulation {
         }
     }
 
+    /**
+     * Recharge la liste globale des ressources depuis le terrain.
+     */
     public static void turn_refresh() {
         ressources = terrain.lesRessources();
     }
 
+    /**
+     * Enleve une ressource de la simulation a partir de son indice.
+     *
+     * @param i indice de la ressource a retirer
+     */
     public static void enleverRessource(int i) {
         try {
             if (!singleton || terrain == null || ressources == null || Agents == null) {
@@ -150,6 +196,11 @@ public class Simulation {
         }
     }
 
+    /**
+     * Enleve une ressource precise de la simulation.
+     *
+     * @param r ressource a retirer
+     */
     public static void enleverRessource(Ressource r) {
         try {
             if (!singleton || terrain == null || ressources == null || Agents == null) {
@@ -166,6 +217,13 @@ public class Simulation {
         }
     }
 
+    /**
+     * Place une ressource aleatoirement sur une case libre du terrain.
+     *
+     * @param terrain terrain sur lequel placer la ressource
+     * @param r ressource a placer
+     * @throws SimulationException si aucune case libre n'est trouvee apres trop de tentatives
+     */
     public static void placerRessourceAleatoire(Terrain terrain, Ressource r) throws SimulationException {
         boolean placee = false;
         int tentatives = 0;

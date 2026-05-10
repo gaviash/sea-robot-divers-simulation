@@ -10,6 +10,9 @@ Projet Java de simulation d'exploration sur un terrain quadrille. Deux types d'a
 
 L'objectif du projet est d'observer comment les parametres de simulation modifient l'equilibre entre les deux equipes.
 
+Important : Les rapports ont étés générés par IA,selon les logs générés par le programme.
+De meme,les fonctions de logs (les fonctions d'affichages),ont étées faite par IA,pour une grande economie de temps.
+
 ## Apercu
 
 Chaque simulation cree un terrain, place des ressources aleatoirement, puis fait agir les agents tour par tour.

@@ -3,10 +3,16 @@ import java.util.ArrayList;
 /**
  * Exemple d'utilisation des classes <code>Terrain</code> 
  * et <code>Ressource</code>.
+ * @author Gavriel Myara
  * @author UL2IN002 (2026fev)
  * @author Christophe Marsala (2020oct-2022oct)
  */
 public class TestTerrain {
+	/**
+	 * Point d'entree de l'exemple de test du terrain.
+	 *
+	 * @param args arguments non utilises
+	 */
 	public static void main(String[] args) {
 	
 		// Exemple de création de terrain

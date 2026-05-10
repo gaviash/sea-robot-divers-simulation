@@ -1,8 +1,18 @@
+/**
+ * Lanceur permettant d'executer une simulation depuis la ligne de commande.
+ *
+ * @author Gavriel Myara
+ */
 public class TestSimulation {
     private static final int NB_AGENTS_DEFAUT = 4;
     private static final int NB_TOURS_DEFAUT = 5;
     private static final int DIMENSION_DEFAUT = 10;
 
+    /**
+     * Point d'entree du lanceur de simulation.
+     *
+     * @param args arguments optionnels : nombre d'agents, nombre de tours, dimension du terrain
+     */
     public static void main(String[] args) {
         int nbAgents = NB_AGENTS_DEFAUT;
         int nbTours = NB_TOURS_DEFAUT;
