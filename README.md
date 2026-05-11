@@ -166,9 +166,9 @@ Le calibrage actuel est interessant parce qu'il ne donne pas toujours le meme ga
 
 Les logs conserves sont limites aux essais utiles :
 
-- [Logs de reference](exp_logs/polarisation/)
-- [Logs polarisants](exp_logs/polarisation_variants/)
-- [Synthese CSV](exp_logs/polarisation_variants/summary_polarisation.csv)
+- [Logs de reference](logs/polarisation/)
+- [Logs polarisants](logs/polarisation_variants/)
+- [Synthese CSV](logs/polarisation_variants/summary_polarisation.csv)
 
 ## Notes techniques
 
